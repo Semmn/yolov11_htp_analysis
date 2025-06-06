@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>예약 이력</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="center">
+    <h2>내 예약 이력</h2>
+    {% for item in history %}
+    {% set i = loop.index0 %}
+    <div class="hospital-cell">
+      <strong>검사 ID:</strong> {{ item.id }}<br>
+      병원: {{ item.hospital }}<br>
+      예약 일시: {{ item.datetime }}<br>
+      의사 열람 여부:
+      {% if item.read_by_doctor %}✅ 열람함{% else %}❌ 미열람{% endif %}<br>
+
+      <form action="{{ url_for('cancel_booking_by_index', index=i) }}" method="post" style="display:inline-block;">
+        <button type="submit">예약취소</button>
+      </form>
+      <form action="{{ url_for('view_result', session_id=item.id) }}" method="get" style="display:inline-block; margin-left: 10px;">
+        <button type="submit">검사내용 확인</button>
+      </form>
+    </div>
+    {% endfor %}
+
+    <form action="{{ url_for('index') }}" method="get">
+      <button type="submit">처음으로</button>
+    </form>
+  </div>
+</body>
+</html>

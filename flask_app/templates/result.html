@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>검사 결과</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="center">
+    <h2>분석 결과</h2>
+    <pre style="white-space: pre-wrap; text-align: left;">{{ formatted_analysis }}</pre>
+
+    <h2>간단한 치료</h2>
+    <div style="white-space: pre-wrap; text-align: left; line-height: 1.6;">
+      {{ recommendations | replace('\n\n', '</p><p>') | replace('\n', '<br>') | safe }}
+    </div>
+
+    <form action="{{ url_for('index') }}" method="get" style="display:inline-block;">
+      <button type="submit">뒤로가기</button>
+    </form>
+    <form action="{{ url_for('hospital') }}" method="get" style="display:inline-block; margin-left: 10px;">
+      <button type="submit">예약신청하기</button>
+    </form>
+  </div>
+</body>
+</html>

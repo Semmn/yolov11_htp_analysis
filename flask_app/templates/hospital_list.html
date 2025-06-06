@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>병원 리스트</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script>
+    async function fetchDistances() {
+      const res = await fetch('/distance');
+      const hospitals = await res.json();
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          const lat1 = pos.coords.latitude;
+          const lon1 = pos.coords.longitude;
+
+          hospitals.forEach((h, i) => {
+            const lat2 = h.lat;
+            const lon2 = h.lon;
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            const d = R * c;
+            const label = document.getElementById("dist-" + i);
+            if (label) label.innerText = d.toFixed(1) + " km";
+          });
+        });
+      }
+    }
+
+    window.onload = fetchDistances;
+  </script>
+</head>
+<body>
+  <div class="center">
+    <h1>근처 병원 보기</h1>
+
+    <form action="{{ url_for('index') }}" method="get">
+      <button type="submit">처음으로</button>
+    </form>
+
+    {% for h in hospitals %}
+      <div class="hospital-cell">
+        <strong>{{ h.name }}</strong> (원장: {{ h.director }})<br>
+        <span class="distance-label" id="dist-{{ loop.index0 }}">거리 계산중...</span><br>
+        <small>리뷰 {{ reviews[h.name]['count'] }}회</small><br>
+        <ul>
+          {% for review in reviews[h.name]['reviews'] %}
+            <li>{{ review }}</li>
+          {% endfor %}
+        </ul>
+        <form action="{{ url_for('booking_done') }}" method="post">
+          <input type="hidden" name="hospital" value="{{ h.name }}">
+          <button type="submit">신청하기</button>
+        </form>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
+

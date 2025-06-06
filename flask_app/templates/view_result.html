@@ -1,0 +1,41 @@
+<!-- view_result.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>검사 결과 확인</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="center">
+    <h1>📊 검사내용 요약</h1>
+
+    <h2>제출 그림 및 사진</h2>
+    <div>
+      <p>🏠 집</p>
+      <img src="{{ image_paths.house }}" width="250">
+      <p>🌳 나무</p>
+      <img src="{{ image_paths.tree }}" width="250">
+      <p>🧟 사람1</p>
+      <img src="{{ image_paths.person1 }}" width="250">
+      <p>🧟 사람2</p>
+      <img src="{{ image_paths.person2 }}" width="250">
+      <p>📷 방 사진</p>
+      <img src="{{ image_paths.photo }}" width="250">
+    </div>
+
+    <h2>🧠 분석 결과</h2>
+    <pre style="white-space: pre-wrap; text-align: left; line-height: 1.6;">
+{{ formatted_analysis }}
+    </pre>
+
+    <h2>💡 간단한 조언</h2>
+    <div style="white-space: pre-wrap; text-align: left; line-height: 1.7;">
+      {{ recommendations | replace('\n\n', '</p><p>') | replace('\n', '<br>') | safe }}
+    </div>
+
+    <form action="{{ url_for('index') }}" method="get" style="margin-top: 20px;">
+      <button type="submit">처음으로</button>
+    </form>
+  </div>
+</body>
+</html>

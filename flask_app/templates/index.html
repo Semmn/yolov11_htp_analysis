@@ -1,0 +1,50 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>그림 및 사진 입력</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='draw.js') }}"></script>
+  <script src="{{ url_for('static', filename='camera.js') }}"></script>
+</head>
+<body>
+  <div class="center">
+    <h1>그림 심리검사 테스트 및 병원 예약 서비스</h1>
+
+    <h3>🎨 그림 그리기</h3>
+    <div>
+      <p>🏠 집 (house)</p>
+      <canvas class="drawingCanvas" id="house" width="300" height="300"></canvas><br>
+      <button onclick="submitDrawing('house')">제출</button>
+      <button onclick="clearCanvas('house')">지우기</button>
+    </div>
+    <div>
+      <p>🌳 나무 (tree)</p>
+      <canvas class="drawingCanvas" id="tree" width="300" height="300"></canvas><br>
+      <button onclick="submitDrawing('tree')">제출</button>
+      <button onclick="clearCanvas('tree')">지우기</button>
+    </div>
+    <div>
+      <p>🧑 사람1 (person1)</p>
+      <canvas class="drawingCanvas" id="person1" width="300" height="300"></canvas><br>
+      <button onclick="submitDrawing('person1')">제출</button>
+      <button onclick="clearCanvas('person1')">지우기</button>
+    </div>
+    <div>
+      <p>🧑 사람2 (person2)</p>
+      <canvas class="drawingCanvas" id="person2" width="300" height="300"></canvas><br>
+      <button onclick="submitDrawing('person2')">제출</button>
+      <button onclick="clearCanvas('person2')">지우기</button>
+    </div>
+
+    <h3>📸 사진 찍음</h3>
+    <video id="camera" autoplay playsinline width="300" height="225"></video><br>
+    <button onclick="capturePhoto()">촬영하기</button>
+
+    <h3>✅ 분석 시작</h3>
+    <form action="{{ url_for('result') }}" method="get">
+      <button type="submit">검사 시작하기</button>
+    </form>
+  </div>
+</body>
+</html>
