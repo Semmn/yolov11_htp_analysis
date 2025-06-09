@@ -5,14 +5,18 @@ import os
 
 def run_detect_analysis_gpt_advice(session_id):
     session_dir = os.path.join('static', 'uploads', session_id)
+    
 
     htp_test = HTPTest(
         person_name=session_id,
         person_age='25',
         drawing_time=[5, 8, 10],
         cls_config_file='./HTPtest/configs/child_painting.yaml',
+        api_model='gpt-4.1-mini',
         paper_type='A4'
     )
+    
+    htp_test.create_client(api_key='Enter Your API!')
 
     htp_test.load_img([
         os.path.join(session_dir, 'house.jpg'),

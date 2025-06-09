@@ -2,7 +2,7 @@ from openai import OpenAI
 
 def generate_htp_recommendations(htp_analysis):
     client = OpenAI(
-        api_key="Enter Your API Key Here!" 
+        api_key="Enter Your API!" 
     )
 
     messages = [
